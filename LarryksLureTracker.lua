@@ -61,7 +61,7 @@ local tomtomData = {
     {way = "/way #2437 47.69 53.25 Zul'Aman (Silverscale)"},
     {way = "/way #2413 66.28 47.91 Harandar (Lumenfin)"},
     {way = "/way #2405 54.60 65.80 Voidstorm (Umbrafang)"},
-    {way = "/way #2405 43.25 82.75 Voidstorm – Grand Beast Lure (Netherscythe)"},
+    {way = "/way #2405 43.25 82.75 Voidstorm - Grand Beast Lure (Netherscythe)"},
 }
 for i, name in ipairs(questNames) do
     local rowY = labelYOffset - (i-1)*30
@@ -84,7 +84,27 @@ for i, name in ipairs(questNames) do
 end
 
 -- Function to update quest completion colors
+
+local function PlayerHasSkinning()
+    local prof1, prof2 = GetProfessions()
+    if prof1 then
+        local _, _, _, _, _, _, skillLine = GetProfessionInfo(prof1)
+        if skillLine == 393 then return true end
+    end
+    if prof2 then
+        local _, _, _, _, _, _, skillLine = GetProfessionInfo(prof2)
+        if skillLine == 393 then return true end
+    end
+    return false
+end
+
 local function UpdateQuestLabels()
+    if not PlayerHasSkinning() then
+        for i = 1, #questLabels do
+            questLabels[i]:SetTextColor(0.5, 0.5, 0.5) -- gray out if not skinner
+        end
+        return
+    end
     for i, questID in ipairs(questIDs) do
         local completed = C_QuestLog.IsQuestFlaggedCompleted(questID)
         if completed then
@@ -96,6 +116,10 @@ local function UpdateQuestLabels()
 end
 
 eventListenerFrame:SetScript("OnEvent", function(self, event, ...)
+    if not PlayerHasSkinning() then
+        UpdateQuestLabels()
+        return
+    end
     if event == "PLAYER_LOGIN" then
         UpdateQuestLabels()
         -- Check for missing quests and print if any
