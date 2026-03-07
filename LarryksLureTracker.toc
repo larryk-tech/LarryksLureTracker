@@ -1,0 +1,11 @@
+## Interface: 120001
+## Title: LarryksLureTracker
+## Notes: An Addon that tracks which Midnight Skinning Lures you used that day.
+## Author: Larryk
+## Version: 1.0.0
+## RequiredDeps:
+## X-Curse-Project-ID: 999999
+## SavedVariables:
+## SavedVariablesPerCharacter:
+
+LarryksLureTracker.lua
