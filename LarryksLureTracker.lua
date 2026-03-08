@@ -142,7 +142,6 @@ eventListenerFrame:SetScript("OnEvent", function(self, event, ...)
     elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
         local unit, _, spellID = ...
         if unit == "player" and spellID == 8613 then
-            print("Debugging: Skinning Successfull")
             -- Delay update to ensure quest state is refreshed
             C_Timer.After(0.2, function()
                 UpdateQuestLabels()
