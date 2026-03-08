@@ -123,7 +123,7 @@ eventListenerFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_LOGIN" then
         UpdateQuestLabels()
         -- Check for missing quests and print if any (delay by 0.5s)
-        C_Timer.After(0.5, function()
+        C_Timer.After(3, function()
             local missing = {}
             for i, questID in ipairs(questIDs) do
                 if not C_QuestLog.IsQuestFlaggedCompleted(questID) then
