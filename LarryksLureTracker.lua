@@ -122,21 +122,23 @@ eventListenerFrame:SetScript("OnEvent", function(self, event, ...)
     end
     if event == "PLAYER_LOGIN" then
         UpdateQuestLabels()
-        -- Check for missing quests and print if any
-        local missing = {}
-        for i, questID in ipairs(questIDs) do
-            if not C_QuestLog.IsQuestFlaggedCompleted(questID) then
-                table.insert(missing, questNames[i])
+        -- Check for missing quests and print if any (delay by 0.5s)
+        C_Timer.After(0.5, function()
+            local missing = {}
+            for i, questID in ipairs(questIDs) do
+                if not C_QuestLog.IsQuestFlaggedCompleted(questID) then
+                    table.insert(missing, questNames[i])
+                end
             end
-        end
-        if #missing > 0 then
-            -- Mint green: |cff3effd7
-            DEFAULT_CHAT_FRAME:AddMessage("|cff3effd7[LLT] Missing Renowned Beasts:|r")
-            -- Red: |cffff2020
-            for _, name in ipairs(missing) do
-                DEFAULT_CHAT_FRAME:AddMessage("|cffff2020" .. name .. "|r")
+            if #missing > 0 then
+                -- Mint green: |cff3effd7
+                DEFAULT_CHAT_FRAME:AddMessage("|cff3effd7[LLT] Missing Renowned Beasts:|r")
+                -- Red: |cffff2020
+                for _, name in ipairs(missing) do
+                    DEFAULT_CHAT_FRAME:AddMessage("|cffff2020" .. name .. "|r")
+                end
             end
-        end
+        end)
     elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
         local unit, _, spellID = ...
         if unit == "player" and spellID == 8613 then
